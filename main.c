@@ -27,14 +27,44 @@ void create(FILE *fp)
         printf("\nERROR file not opened");
     }
     else{
-        fprintf(fp,"employeeID: %d, Employee Name: %s, age: %d, Designation: %s, experience: %d, Joining Date: %s\n", e.employeeId,e.name,e.age,e.designation,e.experience,e.joiningDate);
+        fwrite(&e,sizeof(employee),1,fp);
+        printf("Record Succesfully added\n");
     }
+}
+void delete(const char *filename, int empID){
+    employee e;
+    int found = 0;
+    FILE *file = fopen(filename,"rb");
+    FILE *temp = fopen("temp.dat","wb");
+    if (file == NULL || temp == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+    while (fread(&e, sizeof(employee),1, file))
+    {
+        if(empID==e.employeeId){
+            found = 1;
+            printf("record %d successfully deleted", empID);
+        }
+        else{
+            fwrite(&e,sizeof(employee),1,temp);
+        }
+    }
+    fclose(file);
+    fclose(temp);
+    remove(filename);
+    rename("temp.dat",filename);
+    if (!found) {
+        printf("Employee with ID %d not found.\n", empID);
+    }
+    
+
 }
 int main()
 {
+    const char *filename  = "record.dat";
     FILE *fp;
-    int c;
-    fp = fopen("record.txt","a+");
+    int choice;
     printf("\n\n\n\n---------------- WELCOME TO EMPLOYEE MANAGEMENT SYSTEM ----------------\n\n");
     do
     {
@@ -45,15 +75,26 @@ int main()
         printf("\n\t4. Sort by age");
         printf("\n\t5. Display Record");
         printf("\n\t6. Exit\n");
-        scanf("%d", &c);
-        switch (c)
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        switch (choice)
         {
         case 1:
-            create(fp);
+        fp = fopen(filename,"ab");
+        if (fp == NULL) {
+                    printf("Error opening file!\n");
+                } else {
+                    create(fp);
+                    fclose(fp);
+                }
             break;
-        case 2:
-
+        case 2: {
+            int empID;
+            printf("enter employeeID to be deleted: ");
+            scanf("%d",&empID);
+            delete(filename,empID);
             break;
+        }
         case 3:
 
             break;
@@ -70,6 +111,7 @@ int main()
             printf("Invalid!");
             break;
         }
-    } while (c != 6);
+    } while (choice != 6);
+    //fclose(fp);
     return 0;
 }
