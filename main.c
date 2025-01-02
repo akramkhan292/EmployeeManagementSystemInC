@@ -57,8 +57,30 @@ void delete(const char *filename, int empID){
     if (!found) {
         printf("Employee with ID %d not found.\n", empID);
     }
-    
-
+}
+void searchbyEmpID(const char *filename, int empID){
+    employee e;
+    int found = 0;
+    FILE *file = fopen(filename,"rb");
+    if (file == NULL)
+    {
+        printf("\nERROR File not opened");
+    }
+    while(fread(&e,sizeof(employee),1, file)){
+        if (empID==e.employeeId)
+        {   
+            found = 1;
+            printf("\n\nemployeeID: %d\nName: %s\nAge: %d\nDesignation: %s\nExperience: %d\nJoining Date: %s\n",e.employeeId,e.name,e.age,e.designation,e.experience,e.joiningDate);
+        }
+    }
+    if (found == 1)
+    {
+        printf("\n\nSearch Completed!\n\n");
+    }
+    else{
+        printf("\n\nNo Record Found!\n\n");
+    }
+    fclose(file);
 }
 int main()
 {
@@ -74,8 +96,8 @@ int main()
         printf("\n\t3. Search a Record");
         printf("\n\t4. Sort by age");
         printf("\n\t5. Display Record");
-        printf("\n\t6. Exit\n");
-        printf("Enter your choice: ");
+        printf("\n\t6. exit\n");
+        printf("\nEnter your choice: ");
         scanf("%d", &choice);
         switch (choice)
         {
@@ -90,14 +112,18 @@ int main()
             break;
         case 2: {
             int empID;
-            printf("enter employeeID to be deleted: ");
+            printf("\n\nEnter employeeID to be deleted: ");
             scanf("%d",&empID);
             delete(filename,empID);
             break;
         }
-        case 3:
-
+        case 3:{
+            int empID;
+            printf("\n\nEnter employeeID to Search: ");
+            scanf("%d",&empID);
+            searchbyEmpID(filename,empID);
             break;
+        }
         case 4:
 
             break;
@@ -105,7 +131,7 @@ int main()
 
             break;
         case 6:
-
+            printf("exit\n");
             break;
         default:
             printf("Invalid!");
