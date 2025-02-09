@@ -1,9 +1,9 @@
-CC = clang
+CC = gcc
 CFLAGS = -Wall -Wextra -std=c11
 SRC = src/main.c src/employee.c src/file_operations.c
 OBJ = main.o employee.o file_operations.o
 INC = -Iinclude
-OUT = employee_management
+OUT = employee_management.exe
 
 all: $(OUT)
 
@@ -20,4 +20,5 @@ file_operations.o: src/file_operations.c include/file_operations.h
 	$(CC) $(CFLAGS) $(INC) -c src/file_operations.c -o file_operations.o
 
 clean:
-	rm -f $(OBJ) $(OUT)
+	del /Q $(OBJ) $(OUT)
+
