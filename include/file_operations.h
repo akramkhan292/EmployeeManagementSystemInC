@@ -6,6 +6,6 @@
 void create(const char *filename);
 void deleteRecord(const char *filename, int empID);
 void sortbyage(const char *filename, const char *sortedfile);
-
+void buffer(char ch);
 
 #endif

@@ -5,12 +5,14 @@
 
 // Function to display an employee object
 void displayobj(employee e) {
-    printf("\tEmployeeID: %d\n", e.employeeId);
-    printf("\tName: %s\n", e.name);
-    printf("\tAge: %d\n", e.age);
-    printf("\tDesignation: %s\n", e.designation);
-    printf("\tExperience: %d\n", e.experience);
-    printf("\tJoining Date: %s\n", e.joiningDate);
+    printf("\t ________________________________________\n");
+    printf("\t| EmployeeID:   |  %-21d |\n", e.employeeId);
+    printf("\t| Name:         |  %-21s |\n", e.name);
+    printf("\t| Age:          |  %-21d |\n", e.age);
+    printf("\t| Designation:  |  %-21s |\n", e.designation);
+    printf("\t| Experience:   |  %-21d |\n", e.experience);
+    printf("\t| Joining Date: |  %-21s |\n", e.joiningDate);
+    printf("\t------------------------------------------");
 }
 
 // Function to check if Employee ID exists
@@ -65,10 +67,27 @@ void display(const char *filename) {
     }
 
     int i = 0;
+    printf("\n\n \t\tEmployees\n\n");
     while (fread(&e, sizeof(employee), 1, file)) {
         printf("Record %d:\n", ++i);
         displayobj(e);
         printf("\n");
     }
     fclose(file);
+}
+
+// Buffer after output.
+void buffer(char ch){
+    while (1)
+            {
+                printf("\nEnter Y to continue to main menu.\n");
+                scanf(" %c",&ch);
+                if (ch == 'y' || ch == 'Y') 
+                {
+                    break;
+                }
+                else{
+                    printf("\nInvalid Input!");
+                }
+            }
 }
